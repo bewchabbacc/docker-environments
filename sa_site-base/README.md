@@ -1,65 +1,51 @@
-Sport Archive Site Docker
-=========================
+Sport Archive Site Base
+=======================
 
-This environment is for generating a Docker container for both
-development and production of the main Sport Archive web
-application.
+This is the base image for the machine on which the Sport Archive site
+runs. It does not contain the actual site or any configuration. In
+fact, it's really just a basic machine running Apache +
+php-fpm.
 
-In addition to the container, a Vagrant configuration is provided for
-launching the machine as a development environment.
+However, it can be used as a quick development environment if
+necessary. (It is a better idea to just use the main image in the
+other folder, which includes its own Vagrant file and all-inclusive
+configuration.)
 
-Credentials Setup
------------------
-
-In order to get the application running, there are various credentials
-that must be setup, specifically:
-
-* AWS S3
-* Duo Security
-* Google and Facebook OAuth
-* Orchestrate.io
-* Stripe
-* JWplayer
-
-There are two ways to provide these credentials to the Docker
-container, depending on what you are doing:
-
-1. If you are using Vagrant, you can run the `./setup.sh` script. This
-   will prompt for your credentials and store them in a YAML file that
-   will later be read by Vagrant when provisioning the machine.
-2. Otherwise, you must provide the credentials to Docker at runtime as
-   environment variables using the `-e` switch in docker run (an
-   example of this will be provided later).
-
-In addition to these credentials, it is recommended to set up SSH
-credentials with GitHub. They are not strictly necessary, but help to
-get around GitHub's absurd rate-limiting for non-logged-in users.
-
-Running with Vagrant
---------------------
-
-If you are using vagrant, simply run the `setup.sh` file once, as
-mentioned above, and then run `vagrant up`.
-
-In order to update the Docker image with new code, run `vagrant
-provision`. Note: the code will not update unless you do this.
-
-Running without Vagrant
------------------------
+Building the Image
+------------------
 
 First you must build the Docker image:
 
-    docker build -t sa_site .
+    docker build -t sportarc/sa_site-base .
 
 Then just run the image like so:
 
-    docker run -p 80:80 -e ... sa_site
+    docker run -p 80:80 sa_site
 
 The `-p 80:80` causes port 80 to be forwarded to the machine. You may
 also optionally add `-d` to have Docker run in daemon mode.
 
-As mentioned earlier, you need to provide API credentials to the
-website somehow, and it is done using the `-e` switch for environment
-variables, as shown above. You will need to specify `-e key=value` for
-each API key. For a list of API keys, check the `setup.sh` file.
+Creating a Dev Environment
+--------------------------
 
+If you plan on using this image as a development environment, you must
+first fetch the source code for the site:
+
+    git clone git@github.com:sportarchive/sa_site_v2
+
+Then, when running the container, you need to mount that source code
+at /opt/sa_site inside the container. This can be done as so:
+
+    docker run -p 80:80 -v sa_site_v2:/opt/sa_site
+
+Note: unlike the production image, you must configure the application
+manually, which involves loading the composer dependencies and adding
+in all the API keys (see the README for the main repository for more
+information).
+
+### Using Vagrant ###
+
+As an alternative to running Docker directly, you can use Vagrant to
+run it inside a VM. You must still clone the source code repository as
+described above, but rather than running `docker run`, just run
+`vagrant up` like you would for any other Vagrant image.

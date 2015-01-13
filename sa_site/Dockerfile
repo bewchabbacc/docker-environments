@@ -1,33 +1,12 @@
-FROM debian:stable
+FROM sportarc/sa_site-base
 MAINTAINER Sport Archive Inc
-
-ADD debian-nonfree.list /etc/apt/sources.list.d/
-RUN apt-get update && apt-get install -y \
-  apache2 \
-  apache2-mpm-event \
-  ca-certificates \
-  libapache2-mod-fastcgi \
-  git \
-  php5-cli \
-  php5-curl \
-  php5-fpm \
-  supervisor
-
-RUN a2enmod \
-  actions \
-  alias \
-  env \
-  fastcgi \
-  rewrite
 
 ADD https://getcomposer.org/installer /opt/composer_install.php
 RUN ["php", "/opt/composer_install.php", "--install-dir=/usr/local/bin", "--filename=composer"]
 
-COPY apache2.conf /etc/apache2/conf.d/sa_site.conf
-COPY supervisor.conf /etc/supervisor/conf.d/sa_site.conf
-COPY config/* /opt/sa_site/website/application/config/
 COPY .ssh/* /root/.ssh/
 COPY sa_site_v2 /opt/sa_site
+COPY config/* /opt/sa_site/website/application/config/
 
 WORKDIR /opt/sa_site/website/application/third_party
 RUN ["composer", "install", "-n", "-o"]

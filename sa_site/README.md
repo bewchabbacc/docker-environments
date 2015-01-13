@@ -47,9 +47,10 @@ provision`. Note: the code will not update unless you do this.
 Running without Vagrant
 -----------------------
 
-First you must build the Docker image:
+First you must build the Docker image (note: this image is based on
+the base image, which is in the sibling folder):
 
-    docker build -t sa_site .
+    docker build -t sportarc/sa_site .
 
 Then just run the image like so:
 
