@@ -1,0 +1,65 @@
+Sport Archive Site Docker
+=========================
+
+This environment is for generating a Docker container for both
+development and production of the main Sport Archive web
+application.
+
+In addition to the container, a Vagrant configuration is provided for
+launching the machine as a development environment.
+
+Credentials Setup
+-----------------
+
+In order to get the application running, there are various credentials
+that must be setup, specifically:
+
+* AWS S3
+* Duo Security
+* Google and Facebook OAuth
+* Orchestrate.io
+* Stripe
+* JWplayer
+
+There are two ways to provide these credentials to the Docker
+container, depending on what you are doing:
+
+1. If you are using Vagrant, you can run the `./setup.sh` script. This
+   will prompt for your credentials and store them in a YAML file that
+   will later be read by Vagrant when provisioning the machine.
+2. Otherwise, you must provide the credentials to Docker at runtime as
+   environment variables using the `-e` switch in docker run (an
+   example of this will be provided later).
+
+In addition to these credentials, it is recommended to set up SSH
+credentials with GitHub. They are not strictly necessary, but help to
+get around GitHub's absurd rate-limiting for non-logged-in users.
+
+Running with Vagrant
+--------------------
+
+If you are using vagrant, simply run the `setup.sh` file once, as
+mentioned above, and then run `vagrant up`.
+
+In order to update the Docker image with new code, run `vagrant
+provision`. Note: the code will not update unless you do this.
+
+Running without Vagrant
+-----------------------
+
+First you must build the Docker image:
+
+    docker build -t sa_site .
+
+Then just run the image like so:
+
+    docker run -p 80:80 -e ... sa_site
+
+The `-p 80:80` causes port 80 to be forwarded to the machine. You may
+also optionally add `-d` to have Docker run in daemon mode.
+
+As mentioned earlier, you need to provide API credentials to the
+website somehow, and it is done using the `-e` switch for environment
+variables, as shown above. You will need to specify `-e key=value` for
+each API key. For a list of API keys, check the `setup.sh` file.
+

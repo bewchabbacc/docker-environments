@@ -1,0 +1,23 @@
+VAGRANTFILE_API_VERSION = "2"
+
+require 'yaml'
+
+docker_args = ''
+YAML::load_file('.env.yml').each do |key, value|
+  docker_args += " -e \"#{key}='#{value}'\""
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  config.vm.provision "docker" do |d|
+    d.build_image "/vagrant", args: "-t sa_site-base"
+    d.run "sa_site-base",
+          args: "-p 80:80 -v /vagrant/sa_site_v2:/opt/sa_site" + docker_args,
+          auto_assign_name: false
+  end
+
+  config.vm.provision "shell",
+    inline: "cp /vagrant/config/* /vagrant/sa_site_v2/website/application/config"
+end

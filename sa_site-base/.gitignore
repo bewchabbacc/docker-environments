@@ -1,0 +1,8 @@
+# Created by https://www.gitignore.io
+
+.env.yml
+.git-credentials
+sa_site_v2/
+
+### Vagrant ###
+.vagrant/
