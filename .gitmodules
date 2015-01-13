@@ -1,0 +1,3 @@
+[submodule "sa_site/sa_site_v2"]
+	path = sa_site/sa_site_v2
+	url = git@github.com:sportarchive/sa_site_v2.git

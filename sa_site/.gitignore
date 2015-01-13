@@ -1,0 +1,9 @@
+# Created by https://www.gitignore.io
+
+.env.yml
+.git-credentials
+.ssh/
+!.ssh/known_hosts
+
+### Vagrant ###
+.vagrant/
