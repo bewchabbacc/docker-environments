@@ -38,6 +38,10 @@ get around GitHub's absurd rate-limiting for non-logged-in users.
 Running with Vagrant
 --------------------
 
+### Install Vagrant
+Go to the Vagrant site and install the .deb file: https://www.vagrantup.com/downloads
+
+### Get Started
 If you are using vagrant, simply run the `setup.sh` file once, as
 mentioned above, and then run `vagrant up`.
 
