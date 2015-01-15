@@ -63,16 +63,36 @@ provision`. Note: the code will not update unless you do this.
 
 ### Accessing the Instance ###
 
-You can access the instance like any other Vagrant instance using
-`vagrant ssh`. The Sport Archive website is running on port 80 of the
-machine, which is forwarded to port 8080 on the host machine. In other
-words, you can access the website by visiting:
+#### Shell Access in Docker ####
+
+The Docker image is running inside of a Vagrant VM, so there are
+multiple steps you must perform to get a shell on the container:
+
+1. Open a local shell and navigate to this directory.
+2. Run `vagrant ssh`, which will SSH into the VM.
+3. Run `sudo docker exec -it sportarc-sa_site /bin/bash`.
+
+In the last command, it is telling docker to execute `/bin/bash` on
+the "sportarc-sa_site" container, which is the name that Vagrant
+automatically assigns.
+
+*Note: you can substitute `/bin/bash` with any command you want.*
+
+#### Browsing the Website ####
+
+You can access the website by visiting:
 
     http://localhost:8080/sa-site-v2-dev/
 
-In addition, the `logs/` sub-folder is synced into the Vagrant
-machine, which in turn is synced into the Docker image. All logs from
-the Sport Archive site will appear in this directory.
+This is because port 8080 on the host machine (your computer) is
+forwarded to port 80 on the VM (and, in turn, port 80 on the VM is
+connected to port 80 in the Docker container).
+
+#### Accessing the Site Logs ####
+
+The `logs/` sub-folder is synced into the Vagrant machine, which in
+turn is synced into the Docker image. All logs from the Sport Archive
+site will appear in this directory.
 
 Running without Vagrant
 -----------------------
