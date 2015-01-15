@@ -29,5 +29,6 @@ ENV ORCHESTRATE_KEY xyz
 ENV STRIPE_KEY xyz
 ENV JWPLAYER_KEY xyz
 
+VOLUME /var/tmp/sa_site
 EXPOSE 80
 CMD ["supervisord", "-n"]

@@ -70,6 +70,10 @@ words, you can access the website by visiting:
 
     http://localhost:8080/sa-site-v2-dev/
 
+In addition, the `logs/` sub-folder is synced into the Vagrant
+machine, which in turn is synced into the Docker image. All logs from
+the Sport Archive site will appear in this directory.
+
 Running without Vagrant
 -----------------------
 

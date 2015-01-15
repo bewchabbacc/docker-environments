@@ -3,7 +3,7 @@
 .env.yml
 .git-credentials
 .ssh/
-!.ssh/known_hosts
+logs/
 
 ### Vagrant ###
 .vagrant/
