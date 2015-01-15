@@ -7,7 +7,7 @@ if [ ! -f "sa_site_v2/README.md" ]; then
     git submodule update
 fi
 
-if [ ! -f ".env.yml" ]; then
+if [ ! -f ".env" ]; then
     # Gather API keys for the application
     items=(
 	"AWS_BUCKET_NAME"
@@ -29,7 +29,7 @@ if [ ! -f ".env.yml" ]; then
     output=''
     for item in ${items[@]}; do
 	read -p "Please enter ${item} and press ENTER: " value;
-	output="${output}\n${item}: '${value}'";
+	output="${output}\n${item}=\"${value}\"";
     done
 
     echo -e "${output}" > .env.yml

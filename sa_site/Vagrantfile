@@ -1,12 +1,5 @@
 VAGRANTFILE_API_VERSION = "2"
 
-require 'yaml'
-
-docker_args = ''
-YAML::load_file('.env.yml').each do |key, value|
-  docker_args += " -e \"#{key}='#{value}'\""
-end
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "phusion/ubuntu-14.04-amd64"
   config.vm.network "forwarded_port", guest: 80, host: 8080
@@ -18,6 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     d.build_image "/vagrant-base", args: "-t sportarc/sa_site-base"
     d.build_image "/vagrant", args: "-t sportarc/sa_site"
     d.run "sportarc/sa_site",
-      args: "-v /var/tmp/sa_site:/var/tmp/sa_site -p 80:80" + docker_args
+      args: "-p 80:80 -v /var/tmp/sa_site:/var/tmp/sa_site --env-file=/vagrant/.env"
   end
 end

@@ -1,2 +1,7 @@
 sa_site_v2/.git
+.env
+logs
 .vagrant
+.gitignore
+README.md
+setup.sh
