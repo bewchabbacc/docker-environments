@@ -2,6 +2,11 @@
 
 set -euo pipefail
 
+if [ ! -f "sa_site_v2/README.md" ]; then
+    git submodule init
+    git submodule update
+fi
+
 if [ ! -f ".env.yml" ]; then
     # Gather API keys for the application
     items=(
@@ -15,6 +20,7 @@ if [ ! -f ".env.yml" ]; then
 	"GOOGLE_CLIENTID"
 	"GOOGLE_CLIENTSECRET"
 	"FACEBOOK_CLIENTID"
+	"FACEBOOK_CLIENTSECRET"
 	"ORCHESTRATE_KEY"
 	"STRIPE_KEY"
 	"JWPLAYER_KEY"

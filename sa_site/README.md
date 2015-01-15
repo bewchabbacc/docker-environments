@@ -8,6 +8,11 @@ application.
 In addition to the container, a Vagrant configuration is provided for
 launching the machine as a development environment.
 
+*Note: this docker image has the main source repository included as a
+ Git submodule. The submodule must be initialized before the image can
+ be built. The `setup.sh` script can take care of this for you, or you
+ can initialize it manually.*
+
 Credentials Setup
 -----------------
 
@@ -39,17 +44,31 @@ Running with Vagrant
 --------------------
 
 ### Install Vagrant
-Go to the Vagrant site and install the .deb file: https://www.vagrantup.com/downloads
 
-### Install VirtualBox
-This is a free VM engine. Download and install it at: https://www.virtualbox.org/wiki/Linux_Downloads
+Go to the Vagrant site and install the .deb file:
+https://www.vagrantup.com/downloads
 
-### Get Started
+### Install VirtualBox ###
+
+This is a free VM engine. Download and install it at:
+https://www.virtualbox.org/wiki/Linux_Downloads
+
+### Get Started ###
+
 If you are using vagrant, simply run the `setup.sh` file once, as
 mentioned above, and then run `vagrant up`.
 
 In order to update the Docker image with new code, run `vagrant
 provision`. Note: the code will not update unless you do this.
+
+### Accessing the Instance ###
+
+You can access the instance like any other Vagrant instance using
+`vagrant ssh`. The Sport Archive website is running on port 80 of the
+machine, which is forwarded to port 8080 on the host machine. In other
+words, you can access the website by visiting:
+
+    http://localhost:8080/sa-site-v2-dev/
 
 Running without Vagrant
 -----------------------
