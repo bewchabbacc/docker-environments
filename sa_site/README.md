@@ -1,8 +1,8 @@
 Sport Archive Site Docker
 =========================
 
-This environment is for generating a Docker container for both
-development and production of the main Sport Archive web
+This environment is for generating a Docker container for
+DEV, QA and PROD of the main Sport Archive web
 application.
 
 In addition to the container, a Vagrant configuration is provided for
@@ -12,6 +12,15 @@ launching the machine as a development environment.
  Git submodule. The submodule must be initialized before the image can
  be built. The `setup.sh` script can take care of this for you, or you
  can initialize it manually.*
+
+SSH Setup
+---------
+
+Before getting started it is recommended that you create a SSH key to connect to GitHub.
+If you use the `setup.sh` script to setup your environment, it is mandatory you have a key.
+
+Follow these instructions to get you SSH key working with GitHub:
+https://help.github.com/articles/generating-ssh-keys/
 
 Credentials Setup
 -----------------
@@ -31,9 +40,11 @@ To provide all the necessary credentials to Docker, you must run the
 keys and save them to a `.env` file.
 
 After running this script, it will also generate an SSH key that will
-be placed inside the Docker container. It is recommended you take this
-SSH key and add it to your GitHub account. This allows you to get
-around GitHub's rate limits on anonymous users. However, this is not
+be placed inside the Docker container. 
+
+It is recommended you take this SSH key (id_ras.pub) and add it to your GitHub account. (Similar process than adding the SSH key before. Follow: https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account
+
+This allows you to get around GitHub's rate limits on anonymous users. However, this is not
 required to get the container running, so you only need to do it if
 you are experiencing problems. (The key is stored in the `.ssh` folder
 inside this directory.)
@@ -90,7 +101,7 @@ connected to port 80 in the Docker container).
 
 The `logs/` sub-folder is synced into the Vagrant machine, which in
 turn is synced into the Docker image. All logs from the Sport Archive
-site will appear in this directory.
+site will appear in this directory in the Vagrant VM.
 
 Running without Vagrant
 -----------------------
