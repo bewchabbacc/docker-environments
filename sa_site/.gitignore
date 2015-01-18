@@ -1,8 +1,9 @@
 # Created by https://www.gitignore.io
 
-.env
+.env.yml
 .ssh/
 logs/
+config/*
 
 ### Vagrant ###
 .vagrant/

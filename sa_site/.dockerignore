@@ -1,5 +1,5 @@
 sa_site_v2/.git
-.env
+.env.yml
 logs
 .vagrant
 .gitignore
