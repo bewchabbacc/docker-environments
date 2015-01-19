@@ -32,7 +32,7 @@ if [ ! -f ".env" ]; then
 	output="${output}\n${item}=\"${value}\"";
     done
 
-    echo -e "${output}" > .env.yml
+    echo -e "${output}" > .env
 fi
 
 if [ ! -f ".ssh/id_rsa" ]; then

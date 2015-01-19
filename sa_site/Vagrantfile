@@ -11,6 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     d.build_image "/vagrant-base", args: "-t sportarc/sa_site-base"
     d.build_image "/vagrant", args: "-t sportarc/sa_site"
     d.run "sportarc/sa_site",
-      args: "-p 80:80 -v /var/tmp/sa_site:/var/tmp/sa_site --env-file=/vagrant/.env.yml"
+      args: "-p 80:80 -v /var/tmp/sa_site:/var/tmp/sa_site --env-file=/vagrant/.env"
   end
 end
