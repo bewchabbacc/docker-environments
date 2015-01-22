@@ -24,6 +24,29 @@ RUN a2enmod \
 # Apache and php-fpm configuration
 COPY apache2.conf /etc/apache2/conf.d/sa_site.conf
 COPY supervisor.conf /etc/supervisor/conf.d/sa_site.conf
+COPY php.ini /etc/php5/conf.d/99-sa_site.conf
 
+ENV VIRTUALHOST sportarchive.tv
+
+ENV AWS_BUCKET_NAME xyz
+ENV AWS_ACCESS_KEY xyz
+ENV AWS_SECRET_KEY xyz
+
+ENV DUO_AKEY xyz
+ENV DUO_IKEY xyz
+ENV DUO_SKEY xyz
+ENV DUO_HOST xyz
+
+ENV GOOGLE_CLIENTID xyz
+ENV GOOGLE_CLIENTSECRET xyz
+ENV FACEBOOK_CLIENTID xyz
+ENV FACEBOOK_CLIENTSECRET xyz
+
+ENV ORCHESTRATE_KEY xyz
+ENV STRIPE_KEY xyz
+ENV JWPLAYER_KEY xyz
+
+VOLUME /var/log/apache2
+VOLUME /var/log/php5
 EXPOSE 80
 CMD ["supervisord", "-n"]
