@@ -3,6 +3,7 @@
 .env
 .ssh/
 logs/
+.ebextensions/99credentials.config
 
 ### Vagrant ###
 .vagrant/

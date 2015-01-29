@@ -1,6 +1,0 @@
-# Created by https://www.gitignore.io
-
-sa_site_v2/
-
-### Vagrant ###
-.vagrant/

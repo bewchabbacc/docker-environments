@@ -3,5 +3,6 @@ sa_site_v2/.git
 logs
 .vagrant
 .gitignore
+.elasticbeanstalk
 README.md
 setup.sh
