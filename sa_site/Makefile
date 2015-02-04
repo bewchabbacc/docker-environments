@@ -14,9 +14,24 @@ APIKEYS="AWS_BUCKET_NAME" \
 "JWPLAYER_KEY"
 
 .SILENT: .env
-.PHONE: dev
+.PHONY: dev build prod env
 
-dev: sa_site_v2/README.md .env .ssh/id_rsa
+
+# Rules for building environment
+
+build: sa_site_v2/README.md .env .ssh/id_rsa
+
+prod: clean build .ebextensions/00prod.config
+dev: clean build .ebextensions/00dev.config
+
+clean:
+	-rm -rf .ebextensions/00*.config
+
+
+# Rules for generating files
+
+.ebextensions/00%.config: elasticbeanstalk/%.config
+	cp "$<" "$@"
 
 sa_site_v2/README.md:
 	git submodule init
