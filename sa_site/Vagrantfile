@@ -1,17 +1,36 @@
-VAGRANTFILE_API_VERSION = "2"
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure("2") do |config|
   config.vm.box = "phusion/ubuntu-14.04-amd64"
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.synced_folder "logs/sa_site", "/var/tmp/sa_site",
-    owner: "www-data", group: "www-data"
+                          owner: "www-data", group: "www-data"
 
   config.vm.provision "docker" do |d|
     d.build_image "/vagrant", args: "-t sportarc/sa_site"
-    d.run "sportarc/sa_site",
-          args: "-p 80:80 --env-file=/vagrant/.env" +
-          "-v /var/tmp/sa_site:/var/tmp/sa_site" +
-          "-v /vagrant/logs/apache2:/var/log/apache2" +
-          "-v /vagrant/logs/php5:/var/log/php5"
+  end
+
+  # Production box running fully packaged app
+  config.vm.define "prod", autostart: false do |prod|
+    prod.vm.provision "docker" do |d|
+      d.run "sportarc/sa_site",
+            args: "-p 80:80 --env-file=/vagrant/.env " +
+            "-e ENVIRONMENT=prod " +
+            "-v /var/tmp/sa_site:/var/tmp/sa_site " +
+            "-v /vagrant/logs/apache2:/var/log/apache2 " +
+            "-v /vagrant/logs/php5:/var/log/php5 "
+    end
+  end
+
+  # Dev box with mounted data volume overlaying the code
+  config.vm.define "dev" do |dev|
+    dev.vm.provision "docker" do |d|
+      d.run "sportarc/sa_site",
+            args: "-p 80:80 --env-file=/vagrant/.env " +
+            "-e ENVIRONMENT=dev " +
+            "-v /var/tmp/sa_site:/var/tmp/sa_site " +
+            "-v /vagrant/logs/apache2:/var/log/apache2 " +
+            "-v /vagrant/logs/php5:/var/log/php5 " +
+            "-v /vagrant/sa_site_v2:/opt/sa_site"
+    end
+    dev.vm.provision "shell", path: "dev.sh"
   end
 end

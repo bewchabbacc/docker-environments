@@ -2,7 +2,7 @@ FROM debian:stable
 MAINTAINER Sport Archive Inc
 
 # Base system requirements
-ADD debian-nonfree.list /etc/apt/sources.list.d/
+ADD system/debian-nonfree.list /etc/apt/sources.list.d/
 RUN apt-get update && apt-get install -y \
   apache2 \
   apache2-mpm-event \
@@ -22,9 +22,9 @@ RUN a2enmod \
   rewrite
 
 # Apache and php-fpm configuration
-COPY apache2.conf /etc/apache2/conf.d/sa_site.conf
-COPY supervisor.conf /etc/supervisor/conf.d/sa_site.conf
-COPY php.ini /etc/php5/conf.d/99-sa_site.conf
+COPY system/apache2.conf /etc/apache2/conf.d/sa_site.conf
+COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
+COPY system/php.ini /etc/php5/conf.d/99-sa_site.conf
 
 ADD https://getcomposer.org/installer /opt/composer_install.php
 RUN ["php", "/opt/composer_install.php", "--install-dir=/usr/local/bin", "--filename=composer"]
@@ -35,11 +35,13 @@ COPY sa_site_v2 /opt/sa_site
 COPY config/* /opt/sa_site/website/application/config/
 
 # Composer dependencies for site
+RUN mkdir -p /opt/third_party && ln -s /opt/third_party /opt/sa_site/website/application/third_party/vendor
 WORKDIR /opt/sa_site/website/application/third_party
 RUN ["composer", "install", "-n", "-o"]
 
 # Environment variables
 ENV VIRTUALHOST sportarchive.tv
+ENV ENVIRONMENT prod
 
 ENV AWS_BUCKET_NAME xyz
 ENV AWS_ACCESS_KEY xyz

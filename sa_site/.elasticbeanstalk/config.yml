@@ -1,6 +1,6 @@
 branch-defaults:
   default:
-    environment: sa-site
+    environment: null
 global:
   application_name: sa_site
   default_ec2_keyname: aws-eb
