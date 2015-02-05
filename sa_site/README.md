@@ -20,7 +20,7 @@ Before getting started it is recommended that you create a SSH key to connect to
 If you use the `setup.sh` script to setup your environment, it is mandatory you have a key.
 
 Follow these instructions to get you SSH key working with GitHub:
-https://help.github.com/articles/generating-ssh-keys/
+[https://help.github.com/articles/generating-ssh-keys/](https://help.github.com/articles/generating-ssh-keys/)
 
 Credentials Setup
 -----------------
@@ -36,39 +36,36 @@ that must be setup, specifically:
 * JWplayer
 
 To provide all the necessary credentials to Docker, you must run the
-`./setup.sh` script in this directory. It will prompt for all the API
-keys and save them to a `.env` file.
+`make` in this directory. It will prompt for all the API keys and save
+them to a `.env` file.
 
 After running this script, it will also generate an SSH key that will
 be placed inside the Docker container. 
 
-It is recommended you take this SSH key (id_ras.pub) and add it to your GitHub account. (Similar process than adding the SSH key before. Follow: https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account
+It is recommended you take this SSH key (id_ras.pub) and add it to
+your GitHub account. (Similar process than adding the SSH key
+before. Follow:
+[https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account](https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account)
 
-This allows you to get around GitHub's rate limits on anonymous users. However, this is not
-required to get the container running, so you only need to do it if
-you are experiencing problems. (The key is stored in the `.ssh` folder
-inside this directory.)
+This allows you to get around GitHub's rate limits on anonymous
+users. However, this is not required to get the container running, so
+you only need to do it if you are experiencing problems. (The key is
+stored in the `.ssh` folder inside this directory.)
 
 Running with Vagrant
 --------------------
 
-### Install Vagrant
+### Getting Started
 
-Go to the Vagrant site and install the .deb file:
-https://www.vagrantup.com/downloads
+1. Go to the Vagrant site and install the .deb file:
+   [https://www.vagrantup.com/downloads](https://www.vagrantup.com/downloads)
 
-### Install VirtualBox ###
+2. VirtualBox is a free VM engine. Download and install it at:
+   [https://www.virtualbox.org/wiki/Linux_Downloads](https://www.virtualbox.org/wiki/Linux_Downloads)
 
-This is a free VM engine. Download and install it at:
-https://www.virtualbox.org/wiki/Linux_Downloads
+3. Run `make`, as mentioned above.
 
-### Get Started ###
-
-If you are using vagrant, simply run the `setup.sh` file once, as
-mentioned above, and then run `vagrant up`.
-
-In order to update the Docker image with new code, run `vagrant
-provision`. Note: the code will not update unless you do this.
+4. Run `vagrant up` to start the virtual machine
 
 ### Accessing the Instance ###
 
@@ -78,7 +75,7 @@ The Docker image is running inside of a Vagrant VM, so there are
 multiple steps you must perform to get a shell on the container:
 
 1. Open a local shell and navigate to this directory.
-2. Run `vagrant ssh`, which will SSH into the VM.
+2. Run `vagrant ssh dev`, which will SSH into the VM.
 3. Run `sudo docker exec -it sportarc-sa_site /bin/bash`.
 
 In the last command, it is telling docker to execute `/bin/bash` on
@@ -102,6 +99,33 @@ connected to port 80 in the Docker container).
 The `logs/` sub-folder is synced into the Vagrant machine, which in
 turn is synced into the Docker image. All logs from the Sport Archive
 site will appear in this directory in the Vagrant VM.
+
+### Testing for Production ###
+
+Notice how you ran `vagrant ssh dev` to access the machine. This is
+because the Vagrantfile has two possible machines it can run: prod and
+dev. Up until now you have been running the dev machine.
+
+The dev machine has one slight difference: the website code will be
+synced in real-time from your host computer into the virtual
+machine. In other words, as you make changes to the website, they will
+appear live automatically. This feature is useful for development, but
+cannot be used in production since in production the website must
+actually be an unchangeable part of the Docker image.
+
+Before pushing to AWS for testing, it is recommended you switch to the
+prod machine first and make sure your changes still work (they should,
+since there is no other difference between the two machines, but
+better safe then sorry).
+
+To change machines:
+
+1. Run `vagrant halt dev`. This shuts down the machine so that port
+   8080 is open again.
+2. Run `vagrant up prod`.
+
+From here, you can use the same exact instructions above for accessing
+the instance and testing the website.
 
 Running without Vagrant
 -----------------------
