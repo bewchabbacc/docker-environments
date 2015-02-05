@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
     prod.vm.provision "docker" do |d|
       d.run "sportarc/sa_site",
             args: "-p 80:80 --env-file=/vagrant/.env " +
+            "-e ENVIRONMENT=prod " +
             "-v /var/tmp/sa_site:/var/tmp/sa_site " +
             "-v /vagrant/logs/apache2:/var/log/apache2 " +
             "-v /vagrant/logs/php5:/var/log/php5 "
@@ -24,6 +25,7 @@ Vagrant.configure("2") do |config|
     dev.vm.provision "docker" do |d|
       d.run "sportarc/sa_site",
             args: "-p 80:80 --env-file=/vagrant/.env " +
+            "-e ENVIRONMENT=dev " +
             "-v /var/tmp/sa_site:/var/tmp/sa_site " +
             "-v /vagrant/logs/apache2:/var/log/apache2 " +
             "-v /vagrant/logs/php5:/var/log/php5 " +

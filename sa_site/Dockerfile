@@ -41,6 +41,7 @@ RUN ["composer", "install", "-n", "-o"]
 
 # Environment variables
 ENV VIRTUALHOST sportarchive.tv
+ENV ENVIRONMENT prod
 
 ENV AWS_BUCKET_NAME xyz
 ENV AWS_ACCESS_KEY xyz
