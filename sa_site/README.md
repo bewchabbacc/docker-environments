@@ -10,14 +10,13 @@ launching the machine as a development environment.
 
 *Note: this docker image has the main source repository included as a
  Git submodule. The submodule must be initialized before the image can
- be built. The `setup.sh` script can take care of this for you, or you
- can initialize it manually.*
+ be built. The Makefile can take care of this for you.*
 
 SSH Setup
 ---------
 
 Before getting started it is recommended that you create a SSH key to connect to GitHub.
-If you use the `setup.sh` script to setup your environment, it is mandatory you have a key.
+If you use the Makefile to setup your environment, it is mandatory you have a key.
 
 Follow these instructions to get you SSH key working with GitHub:
 [https://help.github.com/articles/generating-ssh-keys/](https://help.github.com/articles/generating-ssh-keys/)
@@ -36,20 +35,22 @@ that must be setup, specifically:
 * JWplayer
 
 To provide all the necessary credentials to Docker, you must run the
-`make` in this directory. It will prompt for all the API keys and save
+`make` command in this directory. It will prompt for all the API keys and save
 them to a `.env` file.
 
-After running this script, it will also generate an SSH key that will
+After running the Makefile, it will also generate an SSH key that will
 be placed inside the Docker container. 
 
-It is recommended you take this SSH key (id_ras.pub) and add it to
+### Optional
+
+You take this SSH key (id_ras.pub) and add it to
 your GitHub account. (Similar process than adding the SSH key
 before. Follow:
 [https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account](https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account)
 
 This allows you to get around GitHub's rate limits on anonymous
-users. However, this is not required to get the container running, so
-you only need to do it if you are experiencing problems. (The key is
+users. However, this is not required in order to get the container running, so
+you only need to do it if you are experiencing bandwith problems. (The key is
 stored in the `.ssh` folder inside this directory.)
 
 Running with Vagrant
@@ -65,7 +66,7 @@ Running with Vagrant
 
 3. Run `make`, as mentioned above.
 
-4. Run `vagrant up` to start the virtual machine
+4. Run `vagrant up --provision` to start the virtual machine
 
 ### Accessing the Instance ###
 
@@ -76,19 +77,19 @@ multiple steps you must perform to get a shell on the container:
 
 1. Open a local shell and navigate to this directory.
 2. Run `vagrant ssh dev`, which will SSH into the VM.
-3. Run `sudo docker exec -it sportarc-sa_site /bin/bash`.
+3. Run `sudo docker exec -it sportarc-sa_site /bin/bash`, which will open a shell into the Docker container.
 
 In the last command, it is telling docker to execute `/bin/bash` on
 the "sportarc-sa_site" container, which is the name that Vagrant
 automatically assigns.
 
-*Note: you can substitute `/bin/bash` with any command you want.*
+*Note: you can substitute `/bin/bash` with any command you want and that can be executed by the Docker image.*
 
 #### Browsing the Website ####
 
 You can access the website by visiting:
 
-    http://localhost:8080/sa-site-v2-dev/
+    http://localhost:8080
 
 This is because port 8080 on the host machine (your computer) is
 forwarded to port 80 on the VM (and, in turn, port 80 on the VM is
@@ -100,9 +101,14 @@ The `logs/` sub-folder is synced into the Vagrant machine, which in
 turn is synced into the Docker image. All logs from the Sport Archive
 site will appear in this directory in the Vagrant VM.
 
+You can easily tshoot your Codeigniter code by putting "log_message()" function.
+It will get logged into: docker-environments/sa_site/logs/sa_site/
+
+Do a 'tail -f' of the log file there to see the logs in real time.
+
 ### Testing for Production ###
 
-Notice how you ran `vagrant ssh dev` to access the machine. This is
+Notice how you ran `vagrant ssh dev` to access the 'dev' machine. This is
 because the Vagrantfile has two possible machines it can run: prod and
 dev. Up until now you have been running the dev machine.
 
@@ -113,8 +119,17 @@ appear live automatically. This feature is useful for development, but
 cannot be used in production since in production the website must
 actually be an unchangeable part of the Docker image.
 
+#### Coding
+
+To code just go in docker-environments/sa_site/sa_site_v2.
+There you have the source code in a Git repo and you can work as you usually do.
+
+Create branches, push out code, create PR. It's business as usual.
+
+#### Before pushing live
+
 Before pushing to AWS for testing, it is recommended you switch to the
-prod machine first and make sure your changes still work (they should,
+prod Vagrant machine first and make sure your changes still work (they should,
 since there is no other difference between the two machines, but
 better safe then sorry).
 
@@ -122,10 +137,12 @@ To change machines:
 
 1. Run `vagrant halt dev`. This shuts down the machine so that port
    8080 is open again.
-2. Run `vagrant up prod`.
+2. Run `vagrant up prod --provision`.
 
 From here, you can use the same exact instructions above for accessing
 the instance and testing the website.
+
+In the PROD machine the code is not in sync with your local folder anymore.
 
 Running without Vagrant
 -----------------------
