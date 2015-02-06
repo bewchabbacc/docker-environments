@@ -11,6 +11,15 @@ launching the machine as a development environment.
 *Note: this docker image has the main source repository included as a
  Git submodule. The submodule must be initialized before the image can
  be built. The Makefile can take care of this for you.*
+ 
+Clone this repo
+---------------
+
+Yeah! to work you need to clone this locally. No need to fork it unless you want to submit a PR because you made a fix or saw something that need a fix.
+
+Once cloned locally, you will work in the sub-module sa_site_v2 located in 'docker-environments/sa_site/sa_site_v2'.
+
+Follow the instructions.
 
 SSH Setup
 ---------
