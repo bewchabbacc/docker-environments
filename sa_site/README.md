@@ -15,11 +15,13 @@ launching the machine as a development environment.
 Clone this repo
 ---------------
 
-Yeah! to work you need to clone this locally. No need to fork it unless you want to submit a PR because you made a fix or saw something that need a fix.
+Yeah! to work you need to clone this locally. No need to fork it unless you want to submit a Pull Request because you've made an improvement.
 
-Once cloned locally, you will work in the sub-module sa_site_v2 located in 'docker-environments/sa_site/sa_site_v2'.
+Once cloned locally:
+- Work on the SA site: Go to the sub-module 'sa_site_v2' located in 'docker-environments/sa_site/sa_site_v2'.
+- Work on the SA Admin site: TODO
 
-Follow the instructions.
+Just follow the instructions below to get your environment setup.
 
 SSH Setup
 ---------
