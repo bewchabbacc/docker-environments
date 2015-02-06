@@ -106,6 +106,15 @@ It will get logged into: docker-environments/sa_site/logs/sa_site/
 
 Do a 'tail -f' of the log file there to see the logs in real time.
 
+### Coding
+
+To start coding just go in docker-environments/sa_site/sa_site_v2.
+There you have the source code in a Git repo and you can work as you usually do.
+
+Create branches, push out code, create PR. It's business as usual.
+
+Your code is automatically synced with the Docker container and your changes will appear live.
+
 ### Testing for Production ###
 
 Notice how you ran `vagrant ssh dev` to access the 'dev' machine. This is
@@ -118,13 +127,6 @@ machine. In other words, as you make changes to the website, they will
 appear live automatically. This feature is useful for development, but
 cannot be used in production since in production the website must
 actually be an unchangeable part of the Docker image.
-
-#### Coding
-
-To code just go in docker-environments/sa_site/sa_site_v2.
-There you have the source code in a Git repo and you can work as you usually do.
-
-Create branches, push out code, create PR. It's business as usual.
 
 #### Before pushing live
 
