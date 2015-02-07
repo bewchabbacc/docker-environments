@@ -46,15 +46,16 @@ that must be setup, specifically:
 * JWplayer
 
 To provide all the necessary credentials to Docker, you must run the
-`make` command in this directory. It will prompt for all the API keys and save
+`make` command on your local machine from this directory. It will prompt for all the API keys and save
 them to a `.env` file.
 
 After running the Makefile, it will also generate an SSH key that will
-be placed inside the Docker container. 
+be placed inside the Docker container and saved locally in '.ssh'. 
+Don't provide any passphrase to your SSH key.
 
 ### Optional
 
-You take this SSH key (id_ras.pub) and add it to
+You can take this new SSH key (id_ras.pub) and add it to
 your GitHub account. (Similar process than adding the SSH key
 before. Follow:
 [https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account](https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account)
@@ -67,6 +68,8 @@ stored in the `.ssh` folder inside this directory.)
 Running with Vagrant
 --------------------
 
+Vagrant will create a VM on your machine. Inside this VM we run Docker which runs Apache and the site.
+
 ### Getting Started
 
 1. Go to the Vagrant site and install the .deb file:
@@ -75,9 +78,9 @@ Running with Vagrant
 2. VirtualBox is a free VM engine. Download and install it at:
    [https://www.virtualbox.org/wiki/Linux_Downloads](https://www.virtualbox.org/wiki/Linux_Downloads)
 
-3. Run `make`, as mentioned above.
+3. In your clone, in the sa_site folder, run `make` if not already done before. You will be prompt for all your keys. Check your credential document.
 
-4. Run `vagrant up --provision` to start the virtual machine
+4. Run `vagrant up --provision` to start the virtual machine and the Docker container inside the VM
 
 ### Accessing the Instance ###
 
@@ -119,12 +122,12 @@ Do a 'tail -f' of the log file there to see the logs in real time.
 
 ### Coding
 
-To start coding just go in docker-environments/sa_site/sa_site_v2.
+To start coding just go in your local folder docker-environments/sa_site/sa_site_v2.
 There you have the source code in a Git repo and you can work as you usually do.
 
 Create branches, push out code, create PR. It's business as usual.
 
-Your code is automatically synced with the Docker container and your changes will appear live.
+Your code is automatically synced with the running Docker container and your changes will appear live on your local site at http://localhost:8080.
 
 ### Testing for Production ###
 
