@@ -4,6 +4,11 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "logs/", "/var/tmp/logs",
                           owner: "www-data", group: "www-data"
 
+  # Get rid of annoying stdin is not a tty error
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  config.vm.provision "shell",
+                      inline: "sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile"
+
   config.vm.provision "docker" do |d|
     d.build_image "/vagrant", args: "-t sportarc/sa_site"
   end
@@ -18,6 +23,7 @@ Vagrant.configure("2") do |config|
             "-v /var/tmp/logs/apache2:/var/log/apache2 " +
             "-v /var/tmp/logs/php5:/var/log/php5 "
     end
+    prod.vm.provision "shell", inline: "echo \"SUCCESS: Vagrant provisioned.\""
   end
 
   # Dev box with mounted data volume overlaying the code
@@ -32,5 +38,6 @@ Vagrant.configure("2") do |config|
             "-v /vagrant/sa_site_v2:/opt/sa_site"
     end
     dev.vm.provision "shell", path: "dev.sh"
+    dev.vm.provision "shell", inline: "echo \"SUCCESS: Vagrant provisioned.\""
   end
 end
