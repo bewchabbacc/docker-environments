@@ -32,6 +32,31 @@ If you use the Makefile to setup your environment, it is mandatory you have a ke
 Follow these instructions to get you SSH key working with GitHub:
 [https://help.github.com/articles/generating-ssh-keys/](https://help.github.com/articles/generating-ssh-keys/)
 
+Git Setup
+---------
+
+This repository uses [Git submodules](http://git-scm.com/book/en/v2/Git-Tools-Submodules)
+in order to load the website source code.
+
+When you clone this repository and run `make`, the Makefile is set to automatically run
+`git submodule init` and `git submodule update`. So you do not have to do much to set
+up your development environment.
+
+However, since we use GitHub pull requests, the one thing you have to do is change over
+the website's remote repository to your fork rather than the main repository. To do this:
+
+1. Run `make`.
+2. Change into the `sa_site_v2` directory. This directory is the website. It is an
+   independent git repository linked to the main website's codebase.
+3. Run `git remote rename origin upstream`. This renames the main remote repository so
+   you can still pull from it.
+4. Run `git remote add origin <MY_FORK_URL>`, replacing "MY_FORK_URL" with the URL of
+   your repository.
+5. Run `git branch -u origin`. This makes sure whenever you push, you push to your fork
+   rather than upstream.
+
+And you're done!
+
 Credentials Setup
 -----------------
 
@@ -53,7 +78,7 @@ After running the Makefile, it will also generate an SSH key that will
 be placed inside the Docker container and saved locally in '.ssh'. 
 Don't provide any passphrase to your SSH key.
 
-### Optional
+### Optional: Add SSH key to GitHub
 
 You can take this new SSH key (id_ras.pub) and add it to
 your GitHub account. (Similar process than adding the SSH key

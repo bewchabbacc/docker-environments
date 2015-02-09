@@ -1,6 +1,8 @@
 FROM debian:stable
 MAINTAINER Sport Archive Inc
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # Base system requirements
 ADD system/debian-nonfree.list /etc/apt/sources.list.d/
 RUN apt-get update && apt-get install -y \
@@ -23,8 +25,11 @@ RUN a2enmod \
 
 # Apache and php-fpm configuration
 COPY system/apache2.conf /etc/apache2/conf.d/sa_site.conf
+COPY system/apache2-vhost.conf /etc/apache2/sites-available/sa_site
 COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
 COPY system/php.ini /etc/php5/conf.d/99-sa_site.conf
+RUN a2dissite default
+RUN a2ensite sa_site
 
 ADD https://getcomposer.org/installer /opt/composer_install.php
 RUN ["php", "/opt/composer_install.php", "--install-dir=/usr/local/bin", "--filename=composer"]
