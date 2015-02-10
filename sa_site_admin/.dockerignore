@@ -1,0 +1,8 @@
+sa_site_admin/.git
+.env.yml
+logs
+.vagrant
+.gitignore
+.elasticbeanstalk
+README.md
+setup.sh

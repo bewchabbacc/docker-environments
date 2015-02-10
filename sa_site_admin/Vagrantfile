@@ -1,0 +1,43 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.synced_folder "logs/", "/var/tmp/logs",
+                          owner: "www-data", group: "www-data"
+
+  # Get rid of annoying stdin is not a tty error
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  config.vm.provision "shell",
+                      inline: "sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile"
+
+  config.vm.provision "docker" do |d|
+    d.build_image "/vagrant", args: "-t sportarc/sa_site_admin"
+  end
+
+  # Production box running fully packaged app
+  config.vm.define "prod", autostart: false do |prod|
+    prod.vm.provision "docker" do |d|
+      d.run "sportarc/sa_site_admin",
+            args: "-p 80:80 --env-file=/vagrant/.env " +
+            "-e ENVIRONMENT=prod " +
+            "-v /var/tmp/logs/sa_site_admin:/var/tmp/sa_site_admin " +
+            "-v /var/tmp/logs/apache2:/var/log/apache2 " +
+            "-v /var/tmp/logs/php5:/var/log/php5 "
+    end
+    prod.vm.provision "shell", inline: "echo \"SUCCESS: Vagrant provisioned.\""
+  end
+
+  # Dev box with mounted data volume overlaying the code
+  config.vm.define "dev" do |dev|
+    dev.vm.provision "docker" do |d|
+      d.run "sportarc/sa_site_admin",
+            args: "-p 80:80 --env-file=/vagrant/.env " +
+            "-e ENVIRONMENT=dev " +
+            "-v /var/tmp/logs/sa_site_admin:/var/tmp/sa_site_admin " +
+            "-v /var/tmp/logs/apache2:/var/log/apache2 " +
+            "-v /var/tmp/logs/php5:/var/log/php5 " +
+            "-v /vagrant/sa_site_admin:/opt/sa_site_admin"
+    end
+    dev.vm.provision "shell", path: "dev.sh"
+    dev.vm.provision "shell", inline: "echo \"SUCCESS: Vagrant provisioned.\""
+  end
+end

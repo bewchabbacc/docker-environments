@@ -1,3 +1,6 @@
 [submodule "sa_site/sa_site_v2"]
 	path = sa_site/sa_site_v2
 	url = git@github.com:sportarchive/sa_site_v2.git
+[submodule "sa_site_admin/sa_site_admin"]
+	path = sa_site_admin/sa_site_admin
+	url = git@github.com:sportarchive/sa_site_admin.git
