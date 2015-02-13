@@ -150,6 +150,24 @@ Do a 'tail -f' of the log file there to see the logs in real time.
 To start coding just go in your local folder docker-environments/sa_site/sa_site_v2.
 There you have the source code in a Git repo and you can work as you usually do.
 
+But before coding, you must always make sure this "docker-environment" project is up to date.
+Run:
+```
+git pull origin master
+```
+Then make sure the code in sa_site_v2 is up to date.
+Run:
+```
+git checkout master
+git pull upstream master
+```
+If you see fresh updates coming in from the upstream repo, push them out to your fork.
+Run:
+```
+git push origin master
+```
+
+Only then you are ready.
 Create branches, push out code, create PR. It's business as usual.
 
 Your code is automatically synced with the running Docker container and your changes will appear live on your local site at http://localhost:8080.
