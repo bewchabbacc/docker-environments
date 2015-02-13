@@ -27,7 +27,7 @@ RUN a2enmod \
 COPY system/apache2.conf /etc/apache2/conf.d/sa_site.conf
 COPY system/apache2-vhost.conf /etc/apache2/sites-available/sa_site
 COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
-COPY system/php.ini /etc/php5/conf.d/99-sa_site.conf
+COPY system/php.ini /etc/php5/conf.d/99-sa_site.ini
 RUN a2dissite default
 RUN a2ensite sa_site
 
