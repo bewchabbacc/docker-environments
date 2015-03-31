@@ -32,6 +32,41 @@ If you use the Makefile to setup your environment, it is mandatory you have a ke
 Follow these instructions to get you SSH key working with GitHub:
 [https://help.github.com/articles/generating-ssh-keys/](https://help.github.com/articles/generating-ssh-keys/)
 
+Credentials Setup
+-----------------
+
+Ask the administrator to create your credentials and all your API keys before moving to next step.
+
+In order to get the application running, there are various credentials
+that must be setup, specifically:
+
+* AWS S3
+* Duo Security
+* Google and Facebook OAuth
+* Orchestrate.io
+* Stripe
+* JWplayer
+
+To provide all the necessary credentials to Docker, you will run the
+`make` command on your local machine from this directory (see below). It will prompt for all the API keys and save
+them to a `.env` file.
+
+After running the Makefile, it will also generate an SSH key that will
+be placed inside the Docker container and saved locally in '.ssh'. 
+Don't provide any passphrase to your SSH key.
+
+### Optional: Add SSH key to GitHub
+
+You can take this new SSH key (id_ras.pub) and add it to
+your GitHub account. (Similar process than adding the SSH key
+before. Follow:
+[https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account](https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account)
+
+This allows you to get around GitHub's rate limits on anonymous
+users. However, this is not required in order to get the container running, so
+you only need to do it if you are experiencing bandwith problems. (The key is
+stored in the `.ssh` folder inside this directory.)
+
 Git Setup
 ---------
 
@@ -57,38 +92,6 @@ the website's remote repository to your fork rather than the main repository. To
 
 And you're done!
 
-Credentials Setup
------------------
-
-In order to get the application running, there are various credentials
-that must be setup, specifically:
-
-* AWS S3
-* Duo Security
-* Google and Facebook OAuth
-* Orchestrate.io
-* Stripe
-* JWplayer
-
-To provide all the necessary credentials to Docker, you must run the
-`make` command on your local machine from this directory. It will prompt for all the API keys and save
-them to a `.env` file.
-
-After running the Makefile, it will also generate an SSH key that will
-be placed inside the Docker container and saved locally in '.ssh'. 
-Don't provide any passphrase to your SSH key.
-
-### Optional: Add SSH key to GitHub
-
-You can take this new SSH key (id_ras.pub) and add it to
-your GitHub account. (Similar process than adding the SSH key
-before. Follow:
-[https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account](https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account)
-
-This allows you to get around GitHub's rate limits on anonymous
-users. However, this is not required in order to get the container running, so
-you only need to do it if you are experiencing bandwith problems. (The key is
-stored in the `.ssh` folder inside this directory.)
 
 Running with Vagrant
 --------------------
