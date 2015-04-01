@@ -87,8 +87,6 @@ the website's remote repository to your fork rather than the main repository. To
    you can still pull from it.
 4. Run `git remote add origin <MY_FORK_URL>`, replacing "MY_FORK_URL" with the URL of
    your repository.
-5. Run `git branch -u origin`. This makes sure whenever you push, you push to your fork
-   rather than upstream.
 
 And you're done!
 
