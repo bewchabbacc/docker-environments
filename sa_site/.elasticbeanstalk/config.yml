@@ -1,9 +1,10 @@
 branch-defaults:
   default:
-    environment: null
+    environment: sa-site-dev
 global:
   application_name: sa_site
-  default_ec2_keyname: aws-eb
+  default_ec2_keyname: null
   default_platform: Docker 1.3.3
   default_region: null
-  profile: sportarchive-prod
+  profile: sportarchive-dev
+  sc: null
