@@ -1,0 +1,21 @@
+option_settings:
+  "aws:ec2:vpc":
+    VPCId: vpc-51f98f34
+    Subnets: subnet-1bba2b6c
+    ELBSubnets: subnet-1aba2b6d
+
+  "aws:autoscaling:launchconfiguration":
+    EC2KeyName: aws-eb
+    InstanceType: t2.micro
+    SSHSourceRestriction: tcp, 22, 22, sg-7c5dfc18
+    SecurityGroups: sg-dd0dacb9
+
+  "aws:elasticbeanstalk:customoption":
+    VPCId: vpc-51f98f34
+    CacheSubnets:
+      - subnet-4ce48c3b
+
+  "aws:elasticbeanstalk:application:environment":
+    ENVIRONMENT: prod
+    MEMCACHED_ENDPOINT:
+      Fn::GetAtt: ["SessionCache", "ConfigurationEndpoint.Address"]

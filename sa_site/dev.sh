@@ -5,7 +5,7 @@ set -e
 set -o pipefail
 
 # Re-establish the symbolic link to composer's vendor directory
-if [ ! -h /vagrant/sa_site_v2/website/application/third_party/vendor ]; then
+if [ ! -d /vagrant/sa_site_v2/website/application/third_party/vendor ]; then
     /usr/bin/docker exec sportarc-sa_site \
 		    ln -s /opt/third_party /opt/sa_site/website/application/third_party/vendor
 fi

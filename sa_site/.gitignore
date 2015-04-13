@@ -3,7 +3,14 @@
 .env
 .ssh/
 logs/
-.ebextensions/
 
 ### Vagrant ###
 .vagrant/
+
+# Elastic Beanstalk Files
+.ebextensions/20dev.config
+.ebextensions/20prod.config
+.ebextensions/99credentials.config
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

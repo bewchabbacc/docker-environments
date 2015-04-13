@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
   ca-certificates \
   libapache2-mod-fastcgi \
   git \
+  php-pear \
   php5-cli \
   php5-curl \
   php5-fpm \
@@ -28,6 +29,9 @@ COPY system/apache2.conf /etc/apache2/conf.d/sa_site.conf
 COPY system/apache2-vhost.conf /etc/apache2/sites-available/sa_site
 COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
 COPY system/php.ini /etc/php5/conf.d/99-sa_site.ini
+COPY system/php5-elasticache.ini /etc/php5/conf.d/01-elasticache.ini
+COPY system/php5-elasticache.tar.gz /etc/php5/
+RUN pecl install /etc/php5/php5-elasticache.tar.gz
 RUN a2dissite default
 RUN a2ensite sa_site
 
@@ -48,6 +52,7 @@ RUN ["composer", "install", "-n", "-o"]
 # Environment variables
 ENV VIRTUALHOST sportarchive.tv
 ENV ENVIRONMENT prod
+ENV MEMCACHED_ENDPOINT localhost
 
 ENV AWS_BUCKET_NAME xyz
 ENV AWS_ACCESS_KEY xyz
@@ -66,8 +71,9 @@ ENV JWPLAYER_KEY xyz
 ENV SENDWITHUS_KEY xyz
 
 # Log volumes
-VOLUME /var/tmp/sa_site
+VOLUME /var/log/sa_site
 VOLUME /var/log/apache2
 VOLUME /var/log/php5
+VOLUME /var/log/supervisor
 EXPOSE 80
 CMD ["supervisord", "-n"]
