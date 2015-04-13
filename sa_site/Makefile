@@ -22,16 +22,16 @@ APIKEYS="AWS_BUCKET_NAME" \
 
 build: sa_site_v2/README.md .env .ssh/id_rsa
 
-prod: clean build .ebextensions/00prod.config
-dev: clean build .ebextensions/00dev.config
+prod: clean build .ebextensions/20prod.config
+dev: clean build .ebextensions/20dev.config
 
 clean:
-	-rm -rf .ebextensions/00*.config
+	-rm -rf .ebextensions/20*.config
 
 
 # Rules for generating files
 
-.ebextensions/00%.config: elasticbeanstalk/%.config
+.ebextensions/20%.config: .ebextensions/%.config.template
 	cp "$<" "$@"
 
 sa_site_v2/README.md:
@@ -42,7 +42,7 @@ sa_site_v2/README.md:
 	ssh-keygen -b 8192 -f ".ssh/id_rsa";
 	echo echo -e "\n\ATTENTION: Make sure to add the new SSH key to GitHub."
 
-.ebextensions/credentials.config: .env
+.ebextensions/99credentials.config: .env
 
 .env:
 	echo 'option_settings:' > .ebextensions/99credentials.config
