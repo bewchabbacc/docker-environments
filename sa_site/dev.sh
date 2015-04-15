@@ -11,6 +11,8 @@ if [ ! -d /vagrant/sa_site_v2/website/application/third_party/vendor ]; then
 fi
 
 # Re-copy over configuration files
-if [ ! -f /vagrant/sa_site_v2/website/application/config/duo.php ]; then
+if [ ! -f /vagrant/sa_site_v2/website/application/config/sessions.php ]; then
     cp /vagrant/config/* /vagrant/sa_site_v2/website/application/config/
 fi
+
+cp /vagrant/config/sessions_dev.php /vagrant/sa_site_v2/website/application/config/sessions.php

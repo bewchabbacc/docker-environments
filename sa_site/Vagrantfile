@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
       d.run "sportarc/sa_site",
             args: "-p 80:80 --env-file=/vagrant/.env " +
             "-e ENVIRONMENT=prod " +
-            "-e MEMCACHED_ENDPOINT='memcached' "
+            "-e MEMCACHED_ENDPOINT='memcached' " +
             "--link memcached:memcached " +
             "-v /var/tmp/logs/sa_site:/var/log/sa_site " +
             "-v /var/tmp/logs/apache2:/var/log/apache2 " +
@@ -36,6 +36,7 @@ Vagrant.configure("2") do |config|
       d.run "sportarc/sa_site",
             args: "-p 80:80 --env-file=/vagrant/.env " +
             "-e ENVIRONMENT=dev " +
+            "-e MEMCACHED_ENDPOINT='memcached' " +
             "--link memcached:memcached " +
             "-v /var/tmp/logs/sa_site:/var/log/sa_site " +
             "-v /var/tmp/logs/apache2:/var/log/apache2 " +
