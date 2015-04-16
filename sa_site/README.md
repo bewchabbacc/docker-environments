@@ -11,7 +11,7 @@ launching the machine as a development environment.
 *Note: this docker image has the main source repository included as a
  Git submodule. The submodule must be initialized before the image can
  be built. The Makefile can take care of this for you.*
- 
+
 Clone this repo
 ---------------
 
@@ -214,10 +214,13 @@ the base image, which is in the sibling folder):
 
 Then just run the image like so:
 
-    docker run -p 80:80 --env-file .env sa_site
+	docker run memcached
+    docker run -p 80:80 --link memcached:memcached \
+		-e MEMCACHED_ENDPOINT='memcached' --env-file .env sa_site
 
 The `-p 80:80` causes port 80 to be forwarded to the machine. You may
-also optionally add `-d` to have Docker run in daemon mode.
+also optionally add `-d` to have Docker run in daemon mode. The
+`--link` option links together the memcached and main container.
 
 As mentioned earlier, you need to provide API credentials to the
 website somehow, and it is done using the `--env-file .env` switch as
