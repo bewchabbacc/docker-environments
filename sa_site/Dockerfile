@@ -45,7 +45,7 @@ COPY config/* /opt/sa_site/website/application/config/
 COPY config/jwplayer.php /opt/sa_site/website/application/modules/user/widgets/jwplayer/config/
 
 # Composer dependencies for site
-RUN mkdir -p /opt/third_party && ln -s /opt/third_party /opt/sa_site/website/application/third_party/vendor
+RUN mkdir -p /opt/third_party && ln -sf /opt/third_party /opt/sa_site/website/application/third_party/vendor
 WORKDIR /opt/sa_site/website/application/third_party
 RUN ["composer", "install", "-n", "-o"]
 
