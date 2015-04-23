@@ -79,8 +79,8 @@ However, since we use GitHub pull requests, the one thing you have to do is chan
 the website's remote repository to your fork rather than the main repository. To do this:
 
 1. Run `make`.
-2. Change into the `sa_site_v2` directory. This directory is the website. It is an
-   independent git repository linked to the main website's codebase.
+2. Move into the `sa_site_v2` directory. This directory is where the website code lives. It is an
+   independent git repository, a git submodule and it points to the website's codebase.
 3. Run `git remote rename origin upstream`. This renames the main remote repository so
    you can still pull from it.
 4. Run `git remote add origin <MY_FORK_URL>`, replacing "MY_FORK_URL" with the URL of
