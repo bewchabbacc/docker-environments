@@ -2,6 +2,7 @@ FROM debian:stable
 MAINTAINER Sport Archive Inc
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV TERM screen
 
 # Base system requirements
 ADD system/debian-nonfree.list /etc/apt/sources.list.d/
@@ -15,7 +16,8 @@ RUN apt-get update && apt-get install -y \
   php5-cli \
   php5-curl \
   php5-fpm \
-  supervisor
+  supervisor \
+  nano
 
 RUN a2enmod \
   actions \
