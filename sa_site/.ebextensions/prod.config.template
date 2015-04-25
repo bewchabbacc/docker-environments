@@ -19,3 +19,12 @@ option_settings:
     ENVIRONMENT: prod
     MEMCACHED_ENDPOINT:
       Fn::GetAtt: ["SessionCache", "ConfigurationEndpoint.Address"]
+files:
+  "/usr/local/bin/jumpcloud-settags":
+    mode: "000500"
+    owner: root
+    group: root
+    content: |
+      #!/usr/bin/env ruby
+      require 'jumpcloud'
+      JumpCloud.set_system_tags('PROD Webserver')
