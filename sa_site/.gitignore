@@ -8,9 +8,9 @@ logs/
 .vagrant/
 
 # Elastic Beanstalk Files
-.ebextensions/20dev.config
-.ebextensions/20prod.config
-.ebextensions/99credentials.config
+.ebextensions/02dev.config
+.ebextensions/02prod.config
+.ebextensions/00credentials.config
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml

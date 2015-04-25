@@ -22,16 +22,16 @@ APIKEYS="AWS_BUCKET_NAME" \
 
 build: sa_site_v2/README.md .env .ssh/id_rsa
 
-prod: clean build .ebextensions/20prod.config
-dev: clean build .ebextensions/20dev.config
+prod: clean build .ebextensions/02prod.config
+dev: clean build .ebextensions/02dev.config
 
 clean:
-	-rm -rf .ebextensions/20*.config
+	-rm -rf .ebextensions/02*.config
 
 
 # Rules for generating files
 
-.ebextensions/20%.config: .ebextensions/%.config.template
+.ebextensions/02%.config: .ebextensions/%.config.template
 	cp "$<" "$@"
 
 sa_site_v2/README.md:
@@ -42,12 +42,19 @@ sa_site_v2/README.md:
 	ssh-keygen -b 8192 -f ".ssh/id_rsa";
 	echo echo -e "\n\ATTENTION: Make sure to add the new SSH key to GitHub."
 
-.ebextensions/99credentials.config: .env
+.ebextensions/00credentials.config: .env
 
 .env:
-	echo 'option_settings:' > .ebextensions/99credentials.config
+	echo 'option_settings:' > .ebextensions/900credentials.config
 	for item in $(APIKEYS); do \
 		read -p "Please enter $${item} and press ENTER: " value; \
 		echo "$${item}=\"$${value}\"" >> .env; \
-		echo "  - option_name: $${item}\n    value: $${value}" >> .ebextensions/99credentials.config; \
-	done
+		echo "  - option_name: $${item}\n    value: $${value}" >> .ebextensions/00credentials.config; \
+	done; \
+	read -p "Please enter JUMPCLOUD_KEY and press ENTER: " value; \
+	echo "files:" >> .ebextensions/00credentials.config; \
+	echo "  \"/usr/local/etc/jumpcloud_key.conf\":" >> .ebextensions/00credentials.config; \
+	echo "    mode: \"000400\"" >> .ebextensions/00credentials.config; \
+	echo "    owner: root" >> .ebextensions/00credentials.config; \
+	echo "    group: root" >> .ebextensions/00credentials.config; \
+	echo "    content: \"header = \\\"x-connect-key: $${value}\\\"\"" >> .ebextensions/00credentials.config; \
