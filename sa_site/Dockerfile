@@ -34,8 +34,8 @@ RUN chown www-data:www-data /var/lock/apache2
 COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
 COPY system/apache2.conf /etc/apache2/conf-available/sa_site.conf
 COPY system/apache2-vhost.conf /etc/apache2/sites-available/sa_site.conf
-COPY system/php.ini /etc/php5/conf.d/99-sa_site.ini
-COPY system/php5-elasticache.ini /etc/php5/conf.d/01-elasticache.ini
+COPY system/php.ini /etc/php5/fpm/conf.d/99-sa_site.ini
+COPY system/php5-elasticache.ini /etc/php5/fpm/conf.d/01-elasticache.ini
 COPY system/php5-elasticache.tar.gz /etc/php5/
 
 RUN pecl install /etc/php5/php5-elasticache.tar.gz
