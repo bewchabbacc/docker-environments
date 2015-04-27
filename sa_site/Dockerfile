@@ -4,16 +4,16 @@ MAINTAINER Sport Archive Inc
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM screen
 
+COPY system/debian-dotdeb.list /etc/apt/sources.list.d/
+COPY system/dotdeb.gpg /usr/local/share/
+RUN apt-key add /usr/local/share/dotdeb.gpg
+
 # Base system requirements
-ADD system/debian-nonfree.list /etc/apt/sources.list.d/
 RUN apt-get update && apt-get install -y \
   apache2 \
   apache2-mpm-event \
   ca-certificates \
-  libapache2-mod-fastcgi \
-  git \
   php-pear \
-  php5-cli \
   php5-curl \
   php5-fpm \
   supervisor \
@@ -23,34 +23,30 @@ RUN a2enmod \
   actions \
   alias \
   env \
-  fastcgi \
+  proxy_fcgi \
   rewrite
 
 # Apache and php-fpm configuration
+RUN mkdir -p /var/run/apache2
+RUN mkdir -p /var/lock/apache2
+RUN chown www-data:www-data /var/lock/apache2
+
 COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
 COPY system/apache2.conf /etc/apache2/conf-available/sa_site.conf
 COPY system/apache2-vhost.conf /etc/apache2/sites-available/sa_site.conf
 COPY system/php.ini /etc/php5/conf.d/99-sa_site.ini
 COPY system/php5-elasticache.ini /etc/php5/conf.d/01-elasticache.ini
 COPY system/php5-elasticache.tar.gz /etc/php5/
+
 RUN pecl install /etc/php5/php5-elasticache.tar.gz
 RUN a2dissite 000-default.conf
 RUN a2ensite sa_site.conf
 RUN a2enconf sa_site.conf
 
-ADD https://getcomposer.org/installer /opt/composer_install.php
-RUN ["php", "/opt/composer_install.php", "--install-dir=/usr/local/bin", "--filename=composer"]
-
 # Site and site configuration
-COPY .ssh/* /root/.ssh/
 COPY sa_site_v2 /opt/sa_site
 COPY config/* /opt/sa_site/website/application/config/
 COPY config/jwplayer.php /opt/sa_site/website/application/modules/user/widgets/jwplayer/config/
-
-# Composer dependencies for site
-RUN mkdir -p /opt/third_party && ln -sf /opt/third_party /opt/sa_site/website/application/third_party/vendor
-WORKDIR /opt/sa_site/website/application/third_party
-RUN ["composer", "install", "-n", "-o"]
 
 # Environment variables
 ENV VIRTUALHOST sportarchive.tv

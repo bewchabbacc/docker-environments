@@ -20,7 +20,7 @@ APIKEYS="AWS_BUCKET_NAME" \
 
 # Rules for building environment
 
-build: sa_site_v2/README.md .env .ssh/id_rsa
+build: sa_site_v2/website/application/third_party/vendor/autoload.php .env
 
 prod: clean build .ebextensions/02prod.config
 dev: clean build .ebextensions/02dev.config
@@ -38,9 +38,8 @@ sa_site_v2/README.md:
 	git submodule init
 	git submodule update
 
-.ssh/id_rsa:
-	ssh-keygen -b 8192 -f ".ssh/id_rsa";
-	echo echo -e "\n\ATTENTION: Make sure to add the new SSH key to GitHub."
+sa_site_v2/website/application/third_party/vendor/autoload.php: sa_site_v2/README.md
+	$(MAKE) -C sa_site_v2/website/application/third_party
 
 .ebextensions/00credentials.config: .env
 
