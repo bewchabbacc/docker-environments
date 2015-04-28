@@ -1,12 +1,8 @@
-FROM debian:stable
+FROM ubuntu:trusty
 MAINTAINER Sport Archive Inc
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM screen
-
-COPY system/debian-dotdeb.list /etc/apt/sources.list.d/
-COPY system/dotdeb.gpg /usr/local/share/
-RUN apt-key add /usr/local/share/dotdeb.gpg
 
 # Base system requirements
 RUN apt-get update && apt-get install -y \
@@ -19,29 +15,34 @@ RUN apt-get update && apt-get install -y \
   supervisor \
   nano
 
+# Apache and php-fpm configuration
+RUN mkdir -p /var/run/apache2
+RUN mkdir -p /var/lock/apache2
+RUN chown www-data:www-data /var/lock/apache2
+
+# Install ElastiCache extension
+COPY system/php5/elasticache.tar.gz /etc/php5/
+RUN pecl install /etc/php5/elasticache.tar.gz
+
+# Copy config files in...
+COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
+COPY system/apache2/global.conf /etc/apache2/conf-available/sa_site.conf
+COPY system/apache2/vhost.conf /etc/apache2/sites-available/sa_site.conf
+COPY system/php5/elasticache.ini /etc/php5/mods-available/elasticache.ini
+COPY system/php5/global.ini /etc/php5/mods-available/sa_site.ini
+COPY system/php5-fpm/sa_site.conf /etc/php5/fpm/pool.d/sa_site.conf
+
+# ...and then enable them
 RUN a2enmod \
   actions \
   alias \
   env \
   proxy_fcgi \
   rewrite
-
-# Apache and php-fpm configuration
-RUN mkdir -p /var/run/apache2
-RUN mkdir -p /var/lock/apache2
-RUN chown www-data:www-data /var/lock/apache2
-
-COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
-COPY system/apache2.conf /etc/apache2/conf-available/sa_site.conf
-COPY system/apache2-vhost.conf /etc/apache2/sites-available/sa_site.conf
-COPY system/php.ini /etc/php5/fpm/conf.d/99-sa_site.ini
-COPY system/php5-elasticache.ini /etc/php5/fpm/conf.d/01-elasticache.ini
-COPY system/php5-elasticache.tar.gz /etc/php5/
-
-RUN pecl install /etc/php5/php5-elasticache.tar.gz
-RUN a2dissite 000-default.conf
-RUN a2ensite sa_site.conf
-RUN a2enconf sa_site.conf
+RUN a2enconf sa_site
+RUN a2dissite 000-default
+RUN a2ensite sa_site
+RUN php5enmod sa_site elasticache
 
 # Site and site configuration
 COPY sa_site_v2 /opt/sa_site
