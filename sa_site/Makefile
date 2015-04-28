@@ -40,6 +40,7 @@ sa_site_v2/README.md:
 
 sa_site_v2/website/application/third_party/vendor/autoload.php: sa_site_v2/README.md
 	$(MAKE) -C sa_site_v2/website/application/third_party
+	echo "If you had an error about 'vendor'. Go in application/third_party and delete the old 'vendor' symlink there."
 
 .ebextensions/00credentials.config: .env
 
@@ -50,7 +51,7 @@ sa_site_v2/website/application/third_party/vendor/autoload.php: sa_site_v2/READM
 		echo "$${item}=\"$${value}\"" >> .env; \
 		echo "  - option_name: $${item}\n    value: $${value}" >> .ebextensions/00credentials.config; \
 	done; \
-	read -p "Please enter JUMPCLOUD_KEY and press ENTER: " value; \
+	read -p "Please enter JUMPCLOUD_KEY and press ENTER (leave blank for DEV): " value; \
 	echo "files:" >> .ebextensions/00credentials.config; \
 	echo "  \"/usr/local/etc/jumpcloud_key.conf\":" >> .ebextensions/00credentials.config; \
 	echo "    mode: \"000400\"" >> .ebextensions/00credentials.config; \
