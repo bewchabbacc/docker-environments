@@ -39,8 +39,8 @@ sa_site_v2/README.md:
 	git submodule update
 
 sa_site_v2/website/application/third_party/vendor/autoload.php: sa_site_v2/README.md
-	$(MAKE) -C sa_site_v2/website/application/third_party
 	echo "If you had an error about 'vendor'. Go in application/third_party and delete the old 'vendor' symlink there."
+	$(MAKE) -C sa_site_v2/website/application/third_party
 
 .ebextensions/00credentials.config: .env
 
