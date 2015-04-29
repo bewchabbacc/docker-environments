@@ -26,6 +26,7 @@ RUN pecl install /etc/php5/elasticache.tar.gz
 
 # Copy config files in...
 COPY system/supervisor.conf /etc/supervisor/conf.d/sa_site.conf
+COPY system/apache2/keys.conf /etc/apache2/keys.conf
 COPY system/apache2/global.conf /etc/apache2/conf-available/sa_site.conf
 COPY system/apache2/vhost.conf /etc/apache2/sites-available/sa_site.conf
 COPY system/php5/elasticache.ini /etc/php5/mods-available/elasticache.ini
@@ -36,6 +37,7 @@ COPY system/php5-fpm/sa_site.conf /etc/php5/fpm/pool.d/sa_site.conf
 RUN a2enmod \
   actions \
   alias \
+  authn_file \
   env \
   proxy_fcgi \
   rewrite
