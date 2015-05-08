@@ -18,6 +18,7 @@ option_settings:
   "aws:elasticbeanstalk:application:environment":
     ENVIRONMENT: dev
     FORCE_AUTH: 1
+    BETA: 1
     MEMCACHED_ENDPOINT:
       Fn::GetAtt: ["SessionCache", "ConfigurationEndpoint.Address"]
 files:
