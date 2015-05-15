@@ -17,6 +17,7 @@ option_settings:
 
   "aws:elasticbeanstalk:application:environment":
     ENVIRONMENT: prod
+    BETA: 1
     MEMCACHED_ENDPOINT:
       Fn::GetAtt: ["SessionCache", "ConfigurationEndpoint.Address"]
 files:
