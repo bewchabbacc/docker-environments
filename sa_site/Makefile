@@ -45,7 +45,7 @@ sa_site_v2/website/application/third_party/vendor/autoload.php: sa_site_v2/READM
 .ebextensions/00credentials.config: .env
 
 .env:
-	echo 'option_settings:' > .ebextensions/900credentials.config
+	echo 'option_settings:' > .ebextensions/00credentials.config
 	for item in $(APIKEYS); do \
 		read -p "Please enter $${item} and press ENTER: " value; \
 		echo "$${item}=\"$${value}\"" >> .env; \
