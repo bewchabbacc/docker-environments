@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "prod", autostart: false do |prod|
     prod.vm.provision "docker" do |d|
       d.run "sportarc/sa_site",
-            args: "-p 80:80 --env-file=/vagrant/.env " +
+            args: "-p 80:80 --env-file=/vagrant/.env.prod " +
             "-e ENVIRONMENT=prod " +
             "-e MEMCACHED_ENDPOINT='memcached' " +
             "--link memcached:memcached " +
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
     ENV['BETA'] ||= ''
     dev.vm.provision "docker" do |d|
       d.run "sportarc/sa_site",
-            args: "-p 80:80 --env-file=/vagrant/.env " +
+            args: "-p 80:80 --env-file=/vagrant/.env.dev " +
             "-e ENVIRONMENT=dev " +
             "-e FORCE_AUTH=" + ENV['FORCE_AUTH'] + " " +
             "-e BETA=" + ENV['BETA'] + " " +
