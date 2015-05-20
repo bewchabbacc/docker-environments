@@ -4,3 +4,6 @@
 [submodule "sa_site_admin/sa_site_admin"]
 	path = sa_site_admin/sa_site_admin
 	url = git@github.com:sportarchive/sa_site_admin.git
+[submodule "hooks"]
+	path = hooks
+	url = https://gist.github.com/fa7cef4fe74f605a502e.git
