@@ -50,6 +50,8 @@ RUN php5enmod sa_site elasticache
 COPY sa_site_v2 /opt/sa_site
 COPY config/* /opt/sa_site/website/application/config/
 COPY config/jwplayer.php /opt/sa_site/website/application/modules/user/widgets/jwplayer/config/
+RUN mkdir -p /var/log/sa_site /var/log/php5 /var/log/apache2
+RUN chown www-data:www-data /var/log/sa_site /var/log/php5 /var/log/apache2
 
 # Environment variables
 ENV VIRTUALHOST sportarchive.tv

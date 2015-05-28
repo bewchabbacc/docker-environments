@@ -29,4 +29,5 @@ files:
       #!/usr/bin/env ruby
       require 'jumpcloud'
       sleep(30)
+      JumpCloud.set_system_name('PROD Webserver')
       JumpCloud.set_system_tags('PROD Webserver')
