@@ -6,3 +6,7 @@ logs
 .elasticbeanstalk
 README.md
 setup.sh
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore

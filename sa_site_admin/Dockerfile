@@ -49,29 +49,22 @@ RUN php5enmod sa_site_admin elasticache
 # Site and site configuration
 COPY sa_site_admin /opt/sa_site_admin
 COPY config/* /opt/sa_site_admin/website/application/config/
-#COPY config/jwplayer.php /opt/sa_site_admin/website/application/modules/user/widgets/jwplayer/config/
+RUN mkdir -p /var/log/sa_site_admin /var/log/php5 /var/log/apache2
+RUN chown www-data:www-data /var/log/sa_site_admin /var/log/php5 /var/log/apache2
 
 # Environment variables
 ENV VIRTUALHOST sportarchive.tv
 ENV ENVIRONMENT prod
 ENV MEMCACHED_ENDPOINT localhost
 ENV FORCE_AUTH 0
-ENV BETA 0
 
-ENV AWS_BUCKET_NAME xyz
 ENV AWS_ACCESS_KEY xyz
 ENV AWS_SECRET_KEY xyz
 ENV DUO_AKEY xyz
 ENV DUO_IKEY xyz
 ENV DUO_SKEY xyz
 ENV DUO_HOST xyz
-ENV GOOGLE_CLIENTID xyz
-ENV GOOGLE_CLIENTSECRET xyz
-ENV FACEBOOK_CLIENTID xyz
-ENV FACEBOOK_CLIENTSECRET xyz
 ENV ORCHESTRATE_KEY xyz
-ENV STRIPE_KEY xyz
-ENV JWPLAYER_KEY xyz
 ENV SENDWITHUS_KEY xyz
 
 # Log volumes

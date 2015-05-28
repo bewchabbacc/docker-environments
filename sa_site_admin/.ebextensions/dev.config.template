@@ -1,0 +1,34 @@
+option_settings:
+  "aws:ec2:vpc":
+    VPCId: vpc-ca1263af
+    Subnets: subnet-aef72885
+    ELBSubnets: subnet-adf72886
+
+  "aws:autoscaling:launchconfiguration":
+    EC2KeyName: aws-eb
+    InstanceType: t2.micro
+    SSHSourceRestriction: tcp, 22, 22, sg-67a30303
+    SecurityGroups: sg-49a3032d
+
+  "aws:elasticbeanstalk:customoption":
+    VPCId: vpc-ca1263af
+    CacheSubnets:
+      - subnet-57d9687c
+
+  "aws:elasticbeanstalk:application:environment":
+    ENVIRONMENT: dev
+    FORCE_AUTH: 1
+    BETA: 1
+    MEMCACHED_ENDPOINT:
+      Fn::GetAtt: ["SessionCache", "ConfigurationEndpoint.Address"]
+files:
+  "/usr/local/bin/jumpcloud-settags":
+    mode: "000500"
+    owner: root
+    group: root
+    content: |
+      #!/usr/bin/env ruby
+      require 'jumpcloud'
+      sleep(30)
+      JumpCloud.set_system_name('DEV Webserver')
+      JumpCloud.set_system_tags('DEV Webserver')
