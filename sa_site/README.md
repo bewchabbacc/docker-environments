@@ -15,25 +15,20 @@ launching the machine as a development environment.
 Clone this repo
 ---------------
 
-Yeah! to work you need to clone this repo locally. No need to fork it unless you want to submit a Pull Request because you've made an improvement.
+Yeah! to work you need to clone this repo locally. No need to fork it
+unless you want to submit a Pull Request because you've made an
+improvement.
 
-Once cloned locally, to work on the SA site: Go to the sub-module 'sa_site_v2' located in 'docker-environments/sa_site/sa_site_v2'.
+Once cloned locally, to work on the SA site: Go to the sub-module
+'sa_site_v2' located in 'docker-environments/sa_site/sa_site_v2'.
 
 Just follow the instructions below to get your environment setup.
-
-SSH Setup
----------
-
-Before getting started it is recommended that you create a SSH key to connect to GitHub.
-If you use the Makefile to setup your environment, it is mandatory you have a key.
-
-Follow these instructions to get you SSH key working with GitHub:
-[https://help.github.com/articles/generating-ssh-keys/](https://help.github.com/articles/generating-ssh-keys/)
 
 Credentials Setup
 -----------------
 
-Ask the administrator to create your credentials and all your API keys before moving to next step.
+Ask the administrator to create your credentials and all your API keys
+before moving to next step.
 
 In order to get the application running, there are various credentials
 that must be setup, specifically:
@@ -46,24 +41,17 @@ that must be setup, specifically:
 * JWplayer
 
 To provide all the necessary credentials to Docker, you will run the
-`make` command on your local machine from this directory (see below). It will prompt for all the API keys and save
-them to a `.env` file.
+`make dev` command on your local machine from this directory (see below).
+It will prompt for all the API keys and save them to a `.env.dev` file.
 
-After running the Makefile, it will also generate an SSH key that will
-be placed inside the Docker container and saved locally in '.ssh'. 
-Don't provide any passphrase to your SSH key.
+For both the Makefile and Vagrantfile, there are multiple "environments"
+you can use, which allow for specifying different sets of API keys.
 
-### Optional: Add SSH key to GitHub
+* Run `make dev` to setup a file with all your dev environment creds.
+* Run `make prod` to setup a file with all your prod environment creds.
 
-You can take this new SSH key located in .ssh folder (id_ras.pub) and add it to
-your GitHub account. (Similar process than adding the SSH key
-before. Follow:
-[https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account](https://help.github.com/articles/generating-ssh-keys/#step-3-add-your-ssh-key-to-your-account)
-
-This allows you to get around GitHub's rate limits on anonymous
-users. However, this is not required in order to get the container running, so
-you only need to do it if you are experiencing bandwith problems. (The key is
-stored in the `.ssh` folder inside this directory.)
+You can switch seamlessly between the two by running either command. It
+will only ask for your API keys once.
 
 Git Setup
 ---------
@@ -106,7 +94,7 @@ Vagrant will create a VM on your machine. Inside this VM we run Docker which run
 
 4. Run `vagrant up dev` to start the virtual machine and the Docker container inside the VM
 
-Note: Always make sure you have the latest version of the docker-environment project locally. Run a `pull origin master` to update the project.
+Note: Always make sure you have the latest version of the docker-environment project locally. Run a `git pull origin master` to update the project.
 
 ### Accessing the Instance ###
 
@@ -167,37 +155,6 @@ Only then you are ready.
 Create branches, push out code, create PR. It's business as usual.
 
 Your code is automatically synced with the running Docker container and your changes will appear live on your local site at http://localhost:8080.
-
-### Testing for Production ###
-
-Notice how you ran `vagrant ssh dev` to access the 'dev' machine. This is
-because the Vagrantfile has two possible machines it can run: prod and
-dev. Up until now you have been running the dev machine.
-
-The dev machine has one slight difference: the website code will be
-synced in real-time from your host computer into the virtual
-machine. In other words, as you make changes to the website, they will
-appear live automatically. This feature is useful for development, but
-cannot be used in production since in production the website must
-actually be an unchangeable part of the Docker image.
-
-#### Before pushing live
-
-Before pushing to AWS for testing, it is recommended you switch to the
-prod Vagrant machine first and make sure your changes still work (they should,
-since there is no other difference between the two machines, but
-better safe then sorry).
-
-To change machines:
-
-1. Run `vagrant halt dev`. This shuts down the machine so that port
-   8080 is open again.
-2. Run `vagrant up prod --provision`.
-
-From here, you can use the same exact instructions above for accessing
-the instance and testing the website.
-
-In the PROD machine the code is not in sync with your local folder anymore.
 
 Running without Vagrant
 -----------------------
