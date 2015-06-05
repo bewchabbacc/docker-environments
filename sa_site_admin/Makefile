@@ -39,7 +39,7 @@ sa_site_admin/website/application/third_party/vendor/autoload.php: sa_site_admin
 	done;
 
 .ebextensions/00credentials.%.config: .env.%
-	. `pwd`/.env.dev; \
+	. `pwd`/$<; \
 	echo 'option_settings:' > $@; \
 	for item in $(APIKEYS); do \
 		eval value=\$$$$item; \
